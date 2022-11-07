@@ -1,6 +1,9 @@
 <script>
 export default {
-  props: ['tagline'],
+  props: {
+    tagline: String,
+    default: 'Track everything you want to eat',
+  },
   data: () => ({
     navList: [
       {
