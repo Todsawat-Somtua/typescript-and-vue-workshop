@@ -1,15 +1,23 @@
-<script>
+<script lang="ts">
 import NewRestaurantForm from '../components/NewRestaurantForm.vue'
 import RestaurantCard from '../components/RestaurantCard.vue'
 import SideMenu from '../components/SideMenu.vue'
+import { defineComponent } from 'vue'
+import type { Restaurant } from '@/types'
 
-export default {
+type DataShape = {
+  filterText: String
+  restaurantList: Restaurant[]
+  showNewForm: boolean
+}
+
+export default defineComponent({
   components: {
     NewRestaurantForm,
     RestaurantCard,
     SideMenu,
   },
-  data: () => ({
+  data: (): DataShape => ({
     filterText: '',
     restaurantList: [
       {
@@ -37,8 +45,8 @@ export default {
     showNewForm: false,
   }),
   computed: {
-    filteredRestaurantList() {
-      return this.restaurantList.filter((restaurant) => {
+    filteredRestaurantList(): Restaurant[] {
+      return this.restaurantList.filter((restaurant: Restaurant) => {
         if (restaurant.name) {
           return restaurant.name.toLowerCase().includes(this.filterText.toLowerCase())
         } else {
@@ -46,17 +54,17 @@ export default {
         }
       })
     },
-    numberOfRestaurants() {
+    numberOfRestaurants(): number {
       return this.filteredRestaurantList.length
     },
   },
   methods: {
-    addRestaurant(payload) {
+    addRestaurant(payload: Restaurant) {
       this.restaurantList.push(payload)
       this.hideForm()
     },
-    deleteRestaurant(payload) {
-      this.restaurantList = this.restaurantList.filter((restaurant) => {
+    deleteRestaurant(payload: Restaurant) {
+      this.restaurantList = this.restaurantList.filter((restaurant: Restaurant) => {
         return restaurant.id !== payload.id
       })
     },
@@ -68,10 +76,10 @@ export default {
     const route = this.$route
 
     if (this.$route.query.new) {
-      showNewForm.value = true
+      this.showNewForm = true
     }
   },
-}
+})
 </script>
 
 <template>
